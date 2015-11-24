@@ -23,3 +23,5 @@ class Player
   end
 
 end
+
+#if bankroll is 0 and bet is 0 it doesn't kick you out
