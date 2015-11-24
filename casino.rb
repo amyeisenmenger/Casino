@@ -13,6 +13,16 @@
 # 3. Roulette
 # 4. Build a card deck
 # 5. Card games
+# include Random_Events
+def start_high_low
+  new_game = High_Low.new(@player)
+  new_game.high_low_game
+  puts 'Leaving High-Low Table'
+end
+
+@games = {'3'=> {name: 'High/Low',  method: Proc.new { start_high_low } },
+          '4'=> {name: 'Exit Casino', method: Proc.new { exit(0) } }, 
+    }
 
 require_relative 'card'
 require_relative 'player'
@@ -30,20 +40,21 @@ end
 def choose_game
   choice = ''
   while choice != '4'
-    puts '1. Blackjack'
-    puts '2. Slots'
-    puts '3. High/Low'
-    puts '4. Exit Casino'
+    @games.each {|index, game| puts "#{index}. #{game[:name]}"}
+    # puts '1. Blackjack'
+    # puts '2. Slots'
+    # puts '3. High/Low'
+    # puts '4. Exit Casino'
     choice = gets.strip
     case choice
-    when '3'
+    when  '1', '2', '3'
       puts @player
-      new_game = High_Low.new(@player)
-      new_game.high_low_game
-      puts 'Leaving High-Low Table'
+      @games[choice][:method].call
     when '4', 'exit'
-      puts 'Exiting Casino'
-      exit
+      puts 'Goodbye! Thank you for playing.'
+      @games[choice][:method].call
+    else
+      puts 'Invalid input'
     end
   end
 end
@@ -53,4 +64,6 @@ def main_menu
   choose_game
 end
 
-main_menu
+
+
+#main_menu

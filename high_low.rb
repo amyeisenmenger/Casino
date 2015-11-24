@@ -24,16 +24,21 @@ class High_Low
   end
 
 
-  def high_low_round
+  def high_low_round(card)
     bet = @player.place_bet
-    puts 'Dealer flips'
-    first_card = @deck.pick_card
-    puts first_card
+    if card == nil
+      puts 'Dealer flips'
+      first_card = @deck.pick_card
+      puts first_card
+    else
+      first_card = card
+      puts first_card
+    end
     puts "Will the next card be higher or lower?"
     answer = gets.strip
-    flipped_card = @deck.pick_card
-    puts flipped_card
-    value = compare(first_card, flipped_card)
+    @flipped_card = @deck.pick_card
+    puts @flipped_card
+    value = compare(first_card, @flipped_card)
     if value == 'tie'
       puts 'TIE!'
     elsif  answer == value
@@ -49,8 +54,9 @@ class High_Low
   def high_low_game
     puts "Let's Play High-Low"
     answer = ''
+    @flipped_card = nil
     while answer != 'exit'
-      high_low_round
+      high_low_round(@flipped_card)
       if @player.bankroll <= 0
         puts 'You are too poor to play again'
         answer = 'exit'
