@@ -4,7 +4,7 @@ class Poker_Hand
   include Comparable
   include Enumerable
   attr_reader :hand, :values ,:suites
-
+  NAMES = [nil,'Nutin','pair','Two pair', 'Three of a Kind', 'Straight', 'Flush','Full house','Four of a Kind','straight Flush']
   #constructor
   def initialize(cards)
     @hand = cards
@@ -13,6 +13,7 @@ class Poker_Hand
     @unique_values = @values.uniq
     @unique_cards =  @unique_values.size
     @rank = rank
+
   end
 
   #Handles  straight flush, flush, straight, high card
@@ -80,6 +81,9 @@ class Poker_Hand
 
   def to_s
     @hand.each {|card| print "#{card} "}
+  end
+  def hand_type
+    "#{NAMES[@rank[0]]} "
   end
 
   #is reversed so hand with highest value is first element
