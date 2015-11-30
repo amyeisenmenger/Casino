@@ -14,31 +14,45 @@
 # 4. Build a card deck
 # 5. Card games
 # include Random_Events
+require_relative 'card'
+require_relative 'player'
+require_relative 'deck'
+require_relative 'high_low'
+require_relative 'blackjack'
+
 def start_high_low
   new_game = High_Low.new(@player)
   new_game.high_low_game
   puts 'Leaving High-Low Table'
 end
+def start_blackjack
+    new_game = Blackjack.new(@player)
+    new_game.blackjack_game
+end
 
-@games = {'3'=> {name: 'High/Low',  method: Proc.new { start_high_low } },
+@games = {'1'=> {name: 'Blackjack',  method: Proc.new { start_blackjack } },
+          '3'=> {name: 'High/Low',  method: Proc.new { start_high_low } },
           '4'=> {name: 'Exit Casino', method: Proc.new { exit(0) } }, 
     }
 
-require_relative 'card'
-require_relative 'player'
-require_relative 'deck'
-require_relative 'high_low'
 
 def create_player
-  puts 'Enter player name:'
-  player_name = gets.strip
-  puts 'Enter player bankroll:'
-  player_bankroll = gets.to_i
+  
+  player_name = 'test'
+  player_bankroll = 500
   Player.new(player_name, player_bankroll)
 end
+# def create_player
+#   puts 'Enter player name:'
+#   player_name = gets.strip
+#   puts 'Enter player bankroll:'
+#   player_bankroll = gets.to_i
+#   Player.new(player_name, player_bankroll)
+# end
+
 
 def choose_game
-  choice = ''
+  choice = '1'
   while choice != '4'
     @games.each {|index, game| puts "#{index}. #{game[:name]}"}
     # puts '1. Blackjack'
@@ -58,6 +72,27 @@ def choose_game
     end
   end
 end
+# def choose_game
+#   choice = ''
+#   while choice != '4'
+#     @games.each {|index, game| puts "#{index}. #{game[:name]}"}
+#     # puts '1. Blackjack'
+#     # puts '2. Slots'
+#     # puts '3. High/Low'
+#     # puts '4. Exit Casino'
+#     choice = gets.strip
+#     case choice
+#     when  '1', '2', '3'
+#       puts @player
+#       @games[choice][:method].call
+#     when '4', 'exit'
+#       puts 'Goodbye! Thank you for playing.'
+#       @games[choice][:method].call
+#     else
+#       puts 'Invalid input'
+#     end
+#   end
+# end
 
 def main_menu
   @player = create_player
@@ -66,4 +101,4 @@ end
 
 
 
-#main_menu
+main_menu

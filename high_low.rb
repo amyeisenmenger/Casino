@@ -8,7 +8,7 @@ class High_Low
   attr_accessor :deck, :player
 
   def initialize(player)
-    @deck = Deck.new
+    @deck = Deck.new('high_low')
     @player = player
   end
   
