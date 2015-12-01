@@ -1,8 +1,9 @@
-require_relative 'card'
-require_relative 'deck'
-require_relative 'player'
+# require_relative 'card'
+# require_relative 'deck'
+# require_relative 'player'
 
 require 'pry'
+require 'color-console'
 
 class Blackjack
 	attr_accessor :player, :deck
@@ -15,11 +16,11 @@ class Blackjack
 		@dealer_cards = []
 		@player_total = 0
 		@dealer_total = 0
-		# you can't declare an instance variable outside of the init?
 
 	end
 
 	def add_card(person)
+		#sleep(0.5)
 		card = @deck.pick_card
 		case person
 			when 'dealer'
@@ -35,9 +36,10 @@ class Blackjack
 	end
 
 	def display_cards(all = false)
-		`clear`
+		puts `clear`
 		@divider = '**********************'
-		puts @divider
+		Console.puts "#{@divider}", :green  
+		#puts @divider
 		puts "dealer is showing:"
 		#determine if the dealer is showing the down card
 		number_of_cards = @dealer_cards.count 
@@ -51,18 +53,16 @@ class Blackjack
 				puts @dealer_cards[card_ticker]
 				card_ticker += 1
 		end
-		# @dealer_cards.each do |card|
-		# 	puts card
-		# end
-		puts @divider
+		
+		Console.puts "#{@divider}", :green 
 		puts "Player: #{@player.name} has:"
 		@player_cards.each do |card|
 			puts card
 		end
-		puts "dealer total: #{@dealer_total}"
-		puts "player total: #{@player_total}"
+		#puts "dealer total: #{@dealer_total}"
+		#puts "player total: #{@player_total}"
 
-		puts @divider
+		Console.puts "#{@divider}", :green 
 
 	end
 
@@ -145,19 +145,23 @@ end
 
 
 def hit_stand
-	puts 'hit or stand?'
+	Console.puts 'hit or stand?', :yellow 
+	#puts 'hit or stand?'
 	decision = gets.strip
 
-	if decision == 'hit'
+	if decision == 'hit' || decision == 'h'
 		add_card('player')
 		display_cards
 		check_player_total
 		
-	end
-	if decision == 'stand'
+	
+	elsif decision == 'stand' || decision == 's'
 		puts 'you stand'
 		display_cards(true)
 		dealer_hit_stand
+	else
+		Console.puts 'Invalid input! Please type "hit" or "stand" (h/s)', :red  
+		check_player_total
 	end
 end
 
@@ -182,14 +186,11 @@ def dealer_hit_stand
 			@player.bankroll -= @bet
 		end
 
-		
-		
-
 end
 
 
 def blackjack_game
-	
+	# Move all of this to a module?  There are examples in slack (classes and modules and pry)
 	puts "Let's Play Blackjack"
   answer = ''
   while answer != 'exit'
@@ -206,13 +207,7 @@ def blackjack_game
     end
   end
 	
-
-
 end
 
 
 end
-
-# bj = Blackjack.new()
-
-# bj.blackjack_game

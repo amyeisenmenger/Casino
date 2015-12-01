@@ -20,6 +20,8 @@ require_relative 'deck'
 require_relative 'high_low'
 require_relative 'blackjack'
 
+@testing_blackjack = false
+
 def start_high_low
   new_game = High_Low.new(@player)
   new_game.high_low_game
@@ -37,18 +39,19 @@ end
 
 
 def create_player
-  
-  player_name = 'test'
-  player_bankroll = 500
-  Player.new(player_name, player_bankroll)
+  if @testing_blackjack == true
+    player_name = 'test'
+    player_bankroll = 500
+    Player.new(player_name, player_bankroll)
+  else
+    puts 'Enter player name:'
+    player_name = gets.strip
+    puts 'Enter player bankroll:'
+    player_bankroll = gets.to_i
+    Player.new(player_name, player_bankroll)
+  end
 end
-# def create_player
-#   puts 'Enter player name:'
-#   player_name = gets.strip
-#   puts 'Enter player bankroll:'
-#   player_bankroll = gets.to_i
-#   Player.new(player_name, player_bankroll)
-# end
+ 
 
 
 def choose_game
